@@ -1,20 +1,18 @@
-//go:build windows
-// +build windows
-
 package main
 
 import (
 	"github.com/1Vewton/yukumo-script/utils"
 )
 
-// initialize project
+// Initialize directories for storing data
 func init() {
 	utils.InitializeDirectory("phonts")
-	utils.InitializeDirectory("wav")
 	utils.InitializeDirectory("result")
+	utils.InitializeDirectory("wav")
+	utils.InitializeDirectory("datas")
 }
 
-// main function
+// Main process
 func main() {
 
 }

@@ -1,27 +1,68 @@
 package generatorwin
 
-// #cgo LDFLAGS: -L${SRCDIR}/../lib/win64 -lAquesTalk2
+/*
+#cgo LDFLAGS: -L${SRCDIR}/../../lib/win64 -l:AquesTalk2.lib
+#include<YukumoGenerator.h>
+*/
 import "C"
+import (
+	"errors"
+	"fmt"
+	"unsafe"
+)
 
 // GeneratorWin generates yukumo audio for windows
 type GeneratorWin struct {
-	speed       int
-	phont_path  string
-	result_path string
-	text        string
+	speed      int
+	phontPath  string
+	resultPath string
+	text       string
 }
 
 // NewGeneratorWin creates new GeneratorWin struct
 func NewGeneratorWin(
 	speed int,
-	phont_path string,
-	result_path string,
+	phontPath string,
+	resultPath string,
 	text string,
 ) *GeneratorWin {
 	return &GeneratorWin{
-		speed:       speed,
-		phont_path:  phont_path,
-		result_path: result_path,
-		text:        text,
+		speed:      speed,
+		phontPath:  phontPath,
+		resultPath: resultPath,
+		text:       text,
+	}
+}
+
+// generate_wav generates yukumo .wav file on Windows
+func (winGenerator *GeneratorWin) GenerateWav() error {
+	tmpPhontPath := C.CString(winGenerator.phontPath)
+	tmpText := C.CString(winGenerator.text)
+	tmpResultPath := C.CString(winGenerator.resultPath)
+	result := C.generate_wav(
+		tmpPhontPath,
+		tmpText,
+		tmpResultPath,
+		C.int(winGenerator.speed),
+	)
+	C.free(unsafe.Pointer(tmpPhontPath))
+	C.free(unsafe.Pointer(tmpText))
+	C.free(unsafe.Pointer(tmpResultPath))
+	switch result {
+	case 0:
+		return nil
+	case -1:
+		return errors.New("File loading error")
+	case -2:
+		return errors.New("wav generating error")
+	case -3:
+		return errors.New("File opening error")
+	case -4:
+		return errors.New("write incomplete")
+	default:
+		return fmt.Errorf(
+			"Unexpected return %d!",
+			result,
+		)
 	}
 }

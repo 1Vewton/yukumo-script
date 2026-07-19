@@ -60,12 +60,13 @@ int generate_wav(
         // File loading error
         return -1;
     }
-    unsigned char* wav = AquesTalk2_Synthe(text, speed, &size_wav, p_phont);
-    free(p_phont);
+    unsigned char* wav = AquesTalk2_Synthe_Utf8(text, speed, &size_wav, p_phont);
     if (wav == NULL) {
+        free(p_phont);
         // wav generating error
         return -2;
     }
+    free(p_phont);
     FILE* fp = fopen(result_path, "wb");
     if (fp == NULL){
         AquesTalk2_FreeWave(wav);
