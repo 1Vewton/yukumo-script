@@ -38,3 +38,5 @@ lib/*
 phonts/
 wav/
 result/
+
+generator/generatorwin/AquesTalk2.h
