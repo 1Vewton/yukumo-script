@@ -10,20 +10,20 @@ import (
 
 // Initialize directories for storing data
 func init() {
-	utils.InitializeDirectory("phonts")
-	utils.InitializeDirectory("result")
-	utils.InitializeDirectory("wav")
-	utils.InitializeDirectory("datas")
-	utils.InitializeDirectory("examples")
+	utils.InitializeDirectory(utils.PhontsDir)
+	utils.InitializeDirectory(utils.ResultDir)
+	utils.InitializeDirectory(utils.WavsDir)
+	utils.InitializeDirectory(utils.DatasDir)
+	utils.InitializeDirectory(utils.ExampleDir)
 	ctx := context.Background()
-	dir, err := phontsmanager.GetAllPhonts("phonts")
+	dir, err := phontsmanager.GetAllPhonts(utils.PhontsDir)
 	if err != nil {
 		panic(err)
 	}
 	err = example.GenerateExampleWin(
-		"examples",
-		"phonts",
 		ctx,
+		utils.ExampleDir,
+		utils.PhontsDir,
 		dir,
 	)
 	if err != nil {

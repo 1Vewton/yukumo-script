@@ -18,9 +18,9 @@ var scriptLogger = logger.NewLogger("Example", nil)
 
 // GenerateExampleWin generates examples for phont file in win64
 func GenerateExampleWin(
+	ctx context.Context,
 	targetDir string,
 	phontDir string,
-	ctx context.Context,
 	files []os.DirEntry,
 ) error {
 	group, ctx := errgroup.WithContext(ctx)
@@ -58,7 +58,7 @@ func GenerateExampleWin(
 							100,
 							phontFile,
 							targetFile,
-							all2jap.AllToKana("Hello World!"),
+							all2jap.AllToKana("僕はGopherです。"),
 						)
 						err := generatorW.GenerateWav()
 						return err
