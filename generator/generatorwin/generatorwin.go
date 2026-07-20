@@ -9,6 +9,9 @@ import (
 	"errors"
 	"fmt"
 	"unsafe"
+
+	"golang.org/x/text/encoding/japanese"
+	"golang.org/x/text/transform"
 )
 
 // GeneratorWin generates yukumo audio for windows
@@ -34,10 +37,15 @@ func NewGeneratorWin(
 	}
 }
 
-// generate_wav generates yukumo .wav file on Windows
+// GenerateWav generates yukumo .wav file on Windows
 func (winGenerator *GeneratorWin) GenerateWav() error {
+	encoder := japanese.ShiftJIS.NewEncoder()
+	encode, _, errTrans := transform.String(encoder, winGenerator.text)
+	if errTrans != nil {
+		return errTrans
+	}
 	tmpPhontPath := C.CString(winGenerator.phontPath)
-	tmpText := C.CString(winGenerator.text)
+	tmpText := C.CString(encode)
 	tmpResultPath := C.CString(winGenerator.resultPath)
 	result := C.generate_wav(
 		tmpPhontPath,
@@ -52,16 +60,16 @@ func (winGenerator *GeneratorWin) GenerateWav() error {
 	case 0:
 		return nil
 	case -1:
-		return errors.New("File loading error")
+		return errors.New("file loading error")
 	case -2:
 		return errors.New("wav generating error")
 	case -3:
-		return errors.New("File opening error")
+		return errors.New("file opening error")
 	case -4:
 		return errors.New("write incomplete")
 	default:
 		return fmt.Errorf(
-			"Unexpected return %d!",
+			"unexpected return %d",
 			result,
 		)
 	}

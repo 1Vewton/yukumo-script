@@ -1,0 +1,8 @@
+github.com/Luigi-Pizzolito/English2KanaTransliteration v1.0.4 h1:IzmZUthpnKCGlKL2SFheeWzkGCqqQjJL8gFHWPfw9LA=
+github.com/Luigi-Pizzolito/English2KanaTransliteration v1.0.4/go.mod h1:ZQ7p4kVLY6hl6I6TKYkJ4lSOpehd5CFd9GxcLrd+8kQ=
+github.com/gojp/kana v0.1.0 h1:8bd0WXAObhYpyFA3pF17YImnYyVshw0bcXS+ybNFYQk=
+github.com/gojp/kana v0.1.0/go.mod h1:kWp5hDdJQqnZ2E3SQNQe+iejY63SZ+JdlbnW+qn7vxY=
+golang.org/x/sync v0.22.0 h1:SZjpbeLmrCk4xhRSZFNZW5gFUeCeFgjekvI/+gfScek=
+golang.org/x/sync v0.22.0/go.mod h1:9xrNwdLfx4jkKbNva9FpL6vEN7evnE43NNNJQ2LF3+0=
+golang.org/x/text v0.40.0 h1:Ub2Z6/xjgF1WrYQz2nuITOEegKFtiIy+rieRJ5lHZKs=
+golang.org/x/text v0.40.0/go.mod h1:hpnzDAfGV753zIKo+wk3u1bVKCGPbrnF7+7LBF/UHVY=

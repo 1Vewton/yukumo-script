@@ -60,8 +60,9 @@ int generate_wav(
         // File loading error
         return -1;
     }
-    unsigned char* wav = AquesTalk2_Synthe_Utf8(text, speed, &size_wav, p_phont);
+    unsigned char* wav = AquesTalk2_Synthe(text, speed, &size_wav, p_phont);
     if (wav == NULL) {
+        fprintf(stderr, "AquesTalk2 error code: %d\n", size_wav);
         free(p_phont);
         // wav generating error
         return -2;
