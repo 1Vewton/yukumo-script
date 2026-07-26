@@ -9,7 +9,7 @@ import (
 	"github.com/faiface/beep/wav"
 )
 
-// Play the wav file
+// PlayWAV plays the wav file
 func PlayWAV(fileName string) error {
 	resultChan := make(chan bool)
 	file, errFile := os.Open(fileName)
