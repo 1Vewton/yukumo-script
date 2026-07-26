@@ -1,6 +1,7 @@
 package win
 
 import (
+	"github.com/1Vewton/yukumo-script/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -11,6 +12,9 @@ var rootCMD = &cobra.Command{
 	Long: `
 Yukumo is a simple and flexible program that can generate yukumo audio without the need for network connection. 
 	`,
+	Run: func(cmd *cobra.Command, args []string) {
+		utils.CLIWelcome()
+	},
 }
 
 func init() {
