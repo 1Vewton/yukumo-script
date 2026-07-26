@@ -6,6 +6,7 @@ package main
 import (
 	"context"
 
+	"github.com/1Vewton/yukumo-script/cmd/win"
 	"github.com/1Vewton/yukumo-script/example"
 	"github.com/1Vewton/yukumo-script/phontsmanager"
 	"github.com/1Vewton/yukumo-script/utils"
@@ -36,5 +37,5 @@ func init() {
 
 // Main process
 func main() {
-
+	win.Execute()
 }
