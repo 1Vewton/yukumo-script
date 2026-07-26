@@ -21,3 +21,9 @@ func EngToKana(text string) string {
 	numResult := convertnums.ConvertNumToEnglish(text)
 	return AllToKana(numResult)
 }
+
+// JPToKana converts japanese to Kana
+func JPToKana(text string) string {
+	numResult := convertnums.ConverNumToJP(text)
+	return AllToKana(numResult)
+}
