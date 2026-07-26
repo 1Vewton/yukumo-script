@@ -4,11 +4,11 @@ package language
 type Language int
 
 const (
-	// Japanese: 0
+	// Japanese : 0
 	Japanese Language = iota
-	// English: 1
+	// English : 1
 	English
-	// Chinese: 2
+	// Chinese : 2
 	Chinese
 )
 
