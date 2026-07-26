@@ -11,10 +11,12 @@ import (
 	"github.com/1Vewton/yukumo-script/generator/generatorwin"
 	"github.com/1Vewton/yukumo-script/language/all2jap"
 	"github.com/1Vewton/yukumo-script/utils/logger"
+	"github.com/1Vewton/yukumo-script/utils/syncutils"
 	"golang.org/x/sync/errgroup"
 )
 
 var scriptLogger = logger.NewLogger("Example", nil)
+var examplesMap = syncutils.NewMap()
 
 // GenerateExampleWin generates examples for phont file in win64
 func GenerateExampleWin(
@@ -30,6 +32,10 @@ func GenerateExampleWin(
 			name := i.Name()
 			group.Go(
 				func() error {
+					phontName := strings.TrimSuffix(
+						name,
+						filepath.Ext(name),
+					)
 					phontFile := fmt.Sprintf(
 						"%s/%s",
 						phontDir,
@@ -38,10 +44,7 @@ func GenerateExampleWin(
 					targetFile := fmt.Sprintf(
 						"%s/example_%s.wav",
 						targetDir,
-						strings.TrimSuffix(
-							name,
-							filepath.Ext(name),
-						),
+						phontName,
 					)
 					scriptLogger.Info(
 						fmt.Sprintf(
@@ -52,6 +55,11 @@ func GenerateExampleWin(
 					)
 					_, errStat := os.Stat(targetFile)
 					if errStat == nil {
+						// Add Example if generation is successful
+						examplesMap.SetKV(
+							phontName,
+							phontFile,
+						)
 						return nil
 					} else if os.IsNotExist(errStat) {
 						generatorW := generatorwin.NewGeneratorWin(
@@ -61,6 +69,15 @@ func GenerateExampleWin(
 							all2jap.AllToKana("僕はGopherです。"),
 						)
 						err := generatorW.GenerateWav()
+						if err == nil {
+							// Add Example if generation is successful
+							examplesMap.SetKV(
+								phontName,
+								phontFile,
+							)
+							return nil
+						}
+						scriptLogger.Error(err.Error())
 						return err
 					} else {
 						return errStat
