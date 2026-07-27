@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+
+	"github.com/1Vewton/yukumo-script/utils"
 )
 
 // App struct
@@ -18,6 +20,12 @@ func NewApp() *App {
 // startup is called when the app starts. The context is saved
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
+	// Initialize utils
+	utils.InitializeDirectory(utils.PhontsDir)
+	utils.InitializeDirectory(utils.ResultDir)
+	utils.InitializeDirectory(utils.WavsDir)
+	utils.InitializeDirectory(utils.DatasDir)
+	utils.InitializeDirectory(utils.ExampleDir)
 	a.ctx = ctx
 }
 

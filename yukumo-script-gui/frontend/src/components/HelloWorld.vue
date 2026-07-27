@@ -1,25 +1,54 @@
 <script setup>
-import {reactive} from 'vue'
-import {Greet} from '../../wailsjs/go/main/App'
+/**
+ * HelloWorld.vue — Example Interactive Component
+ *
+ * This component demonstrates the Wails Go ↔ JavaScript bridge by:
+ * 1. Taking user input from a text field
+ * 2. Calling the Go backend method `Greet()` via the auto-generated bridge
+ * 3. Displaying the returned greeting message
+ */
 
+import { reactive } from 'vue';
+import { Greet } from '../../wailsjs/go/main/App';
+
+/**
+ * Reactive application data.
+ *
+ * @property {string} name       - The user-provided name input
+ * @property {string} resultText - The greeting message returned from the Go backend
+ */
 const data = reactive({
-  name: "",
-  resultText: "Please enter your name below 👇",
-})
+  name: '',
+  resultText: 'Please enter your name below 👇',
+});
 
+/**
+ * Calls the Go backend's Greet() method with the current name value,
+ * then updates the result text with the server's response.
+ *
+ * This function is triggered when the user clicks the "Greet" button.
+ */
 function greet() {
-  Greet(data.name).then(result => {
-    data.resultText = result
-  })
+  Greet(data.name).then((result) => {
+    data.resultText = result;
+  });
 }
-
 </script>
 
 <template>
   <main>
+    <!-- Display area for the greeting result returned from the Go backend -->
     <div id="result" class="result">{{ data.resultText }}</div>
+
+    <!-- Input area with name field and greet button -->
     <div id="input" class="input-box">
-      <input id="name" v-model="data.name" autocomplete="off" class="input" type="text"/>
+      <input
+        id="name"
+        v-model="data.name"
+        autocomplete="off"
+        class="input"
+        type="text"
+      />
       <button class="btn" @click="greet">Greet</button>
     </div>
   </main>
@@ -59,11 +88,7 @@ function greet() {
   -webkit-font-smoothing: antialiased;
 }
 
-.input-box .input:hover {
-  border: none;
-  background-color: rgba(255, 255, 255, 1);
-}
-
+.input-box .input:hover,
 .input-box .input:focus {
   border: none;
   background-color: rgba(255, 255, 255, 1);
