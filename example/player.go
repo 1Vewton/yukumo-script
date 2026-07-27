@@ -12,10 +12,10 @@ func GetAllExampleFont() []string {
 }
 
 // PlayExample plays example of a phont
-func PlayExample(phontName string) error {
+func PlayExample(phontName string) (*string, error) {
 	fileName, exists := examplesMap.GetValue(phontName)
 	if !exists {
-		return fmt.Errorf(
+		return nil, fmt.Errorf(
 			"Example for %s does not exists",
 			phontName,
 		)

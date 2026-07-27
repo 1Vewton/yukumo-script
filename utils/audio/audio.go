@@ -10,15 +10,15 @@ import (
 )
 
 // PlayWAV plays the wav file
-func PlayWAV(fileName string) error {
+func PlayWAV(fileName string) (*string, error) {
 	resultChan := make(chan bool)
 	file, errFile := os.Open(fileName)
 	if errFile != nil {
-		return errFile
+		return &fileName, errFile
 	}
 	streamer, format, err := wav.Decode(file)
 	if err != nil {
-		return err
+		return &fileName, err
 	}
 	defer streamer.Close()
 	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
@@ -31,5 +31,6 @@ func PlayWAV(fileName string) error {
 		),
 	))
 	<-resultChan
-	return nil
+	time.Sleep(500 * time.Millisecond)
+	return &fileName, nil
 }

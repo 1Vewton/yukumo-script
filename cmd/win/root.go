@@ -2,8 +2,11 @@ package win
 
 import (
 	"github.com/1Vewton/yukumo-script/utils"
+	"github.com/1Vewton/yukumo-script/utils/logger"
 	"github.com/spf13/cobra"
 )
+
+var cmdLogger = logger.NewLogger("CMD", nil)
 
 // rootCMD defines the root command
 var rootCMD = &cobra.Command{
@@ -19,6 +22,7 @@ Yukumo is a simple and flexible program that can generate yukumo audio without t
 
 func init() {
 	rootCMD.AddCommand(showAvailablePhontsCMD)
+	rootCMD.AddCommand(playExampleCMD)
 }
 
 // Execute executes the command

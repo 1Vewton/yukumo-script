@@ -1,6 +1,8 @@
 package win
 
 import (
+	"fmt"
+
 	"github.com/1Vewton/yukumo-script/example"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
@@ -19,6 +21,42 @@ ShowAvailablePhonts shows all the available phonts that can be used to generate 
 		text := color.New(color.Italic)
 		for _, phontName := range example.GetAllExampleFont() {
 			text.Println(phontName)
+		}
+	},
+}
+
+// playExampleCMD plays the example for the phont
+var playExampleCMD = &cobra.Command{
+	Use:   "playExample",
+	Short: "playExample allows you to play example generated for certain phonts",
+	Long:  "playExample allows you to play example generated for certain phonts",
+	Run: func(cmd *cobra.Command, args []string) {
+		// Define the format of the texts
+		title := color.New(color.FgGreen).Add(color.Bold)
+		errMessage := color.New(color.FgRed).Add(color.Bold)
+		text := color.New(color.Italic)
+		// Print info
+		title.Println("Here are the available phonts:")
+		for _, phontName := range example.GetAllExampleFont() {
+			text.Println(phontName)
+		}
+		title.Println("Input the name of the phont you want to play:")
+		// Input
+		var phontName string
+		fmt.Scan(&phontName)
+		// Play
+		file, err := example.PlayExample(phontName)
+		if err != nil {
+			cmdLogger.Error(err.Error())
+			if file != nil {
+				cmdLogger.Error(
+					fmt.Sprintf(
+						"Error occurs when reading %s",
+						*file,
+					),
+				)
+			}
+			errMessage.Println(err.Error())
 		}
 	},
 }

@@ -58,7 +58,7 @@ func GenerateExampleWin(
 						// Add Example if generation is successful
 						examplesMap.SetKV(
 							phontName,
-							phontFile,
+							targetFile,
 						)
 						return nil
 					} else if os.IsNotExist(errStat) {
@@ -73,7 +73,7 @@ func GenerateExampleWin(
 							// Add Example if generation is successful
 							examplesMap.SetKV(
 								phontName,
-								phontFile,
+								targetFile,
 							)
 							return nil
 						}
