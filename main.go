@@ -19,11 +19,11 @@ func init() {
 	utils.InitializeDirectory(utils.WavsDir)
 	utils.InitializeDirectory(utils.DatasDir)
 	utils.InitializeDirectory(utils.ExampleDir)
-	ctx := context.Background()
 	dir, err := phontsmanager.GetAllPhonts(utils.PhontsDir)
 	if err != nil {
 		panic(err)
 	}
+	ctx := context.Background()
 	err = example.GenerateExampleWin(
 		ctx,
 		utils.ExampleDir,

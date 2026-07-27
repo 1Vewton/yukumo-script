@@ -1,10 +1,21 @@
+//go:build windows
+// +build windows
+
 package main
 
 import (
 	"context"
 	"fmt"
 
+	"github.com/1Vewton/yukumo-script/example"
+	"github.com/1Vewton/yukumo-script/phontsmanager"
 	"github.com/1Vewton/yukumo-script/utils"
+	"github.com/1Vewton/yukumo-script/utils/logger"
+)
+
+var guiLogger = logger.NewLogger(
+	"GUI",
+	nil,
 )
 
 // App struct
@@ -26,6 +37,24 @@ func (a *App) startup(ctx context.Context) {
 	utils.InitializeDirectory(utils.WavsDir)
 	utils.InitializeDirectory(utils.DatasDir)
 	utils.InitializeDirectory(utils.ExampleDir)
+	utils.InitializeFile(utils.ConfDir)
+	dir, err := phontsmanager.GetAllPhonts(
+		utils.PhontsDir,
+	)
+	if err != nil {
+		guiLogger.Error(err.Error())
+		panic(err.Error())
+	}
+	err = example.GenerateExampleWin(
+		ctx,
+		utils.ExampleDir,
+		utils.PhontsDir,
+		dir,
+	)
+	if err != nil {
+		guiLogger.Error(err.Error())
+		panic(err.Error())
+	}
 	a.ctx = ctx
 }
 

@@ -12,7 +12,7 @@ var initializeLogger = logger.NewLogger(
 	nil,
 )
 
-// InitializeDirectory creates a directory
+// InitializeDirectory creates a directory if it does not exists
 func InitializeDirectory(directoryName string) {
 	_, errStat := os.Stat(directoryName)
 	if errStat == nil {
@@ -25,6 +25,27 @@ func InitializeDirectory(directoryName string) {
 	} else if os.IsNotExist(errStat) {
 		err := os.Mkdir(directoryName, 0666)
 		if err != nil {
+			panic(err.Error())
+		}
+	} else {
+		panic(errStat.Error())
+	}
+}
+
+// InitializeFile creates a file if it does not exists
+func InitializeFile(fileName string) {
+	_, errStat := os.Stat(fileName)
+	if errStat == nil {
+		initializeLogger.Info(
+			fmt.Sprintf(
+				"%s file alredy exists \n",
+				fileName,
+			),
+		)
+	} else if os.IsNotExist(errStat) {
+		file, err := os.Create(fileName)
+		if err != nil {
+			defer file.Close()
 			panic(err.Error())
 		}
 	} else {
