@@ -27,7 +27,6 @@ func NewCharacter(
 func (character *Character) HasProfileImage() bool {
 	if character.ProfileImagePath == nil {
 		return false
-	} else {
-		return true
 	}
+	return true
 }

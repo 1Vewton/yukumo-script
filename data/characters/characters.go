@@ -40,6 +40,20 @@ func (characters *Characters) AddCharacter(character *Character) {
 	}
 }
 
+// saveTo saves to the target file
+func (characters *Characters) saveTo(target string) error {
+	jsonData, errJSON := json.Marshal(characters)
+	if errJSON != nil {
+		return errJSON
+	}
+	errWrite := os.WriteFile(
+		target,
+		jsonData,
+		0666,
+	)
+	return errWrite
+}
+
 // ReadData reads the data inside the file stored
 func (characters *Characters) ReadData() error {
 	path := fmt.Sprintf(
@@ -55,15 +69,9 @@ func (characters *Characters) ReadData() error {
 				return errCreate
 			}
 			defer file.Close()
-			jsonData, errJson := json.Marshal(characters)
-			if errJson != nil {
-				return errJson
-			}
-			_, errWrite := file.Write(jsonData)
-			return errWrite
-		} else {
-			return errExist
+			return characters.saveTo(path)
 		}
+		return errExist
 	}
 	data, errRead := os.ReadFile(path)
 	if errRead != nil {
