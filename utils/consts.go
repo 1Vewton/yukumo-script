@@ -15,4 +15,6 @@ const (
 	ImagesDir string = "datas/images"
 	// ConfDir defines the path of the conf file
 	ConfDir string = "conf.ini"
+	// CharactersFile defines the name of the file for storing characters
+	CharactersFile string = "characters.json"
 )

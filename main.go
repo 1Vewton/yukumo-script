@@ -7,6 +7,7 @@ import (
 	"context"
 
 	"github.com/1Vewton/yukumo-script/cmd/win"
+	"github.com/1Vewton/yukumo-script/data/characters"
 	"github.com/1Vewton/yukumo-script/example"
 	"github.com/1Vewton/yukumo-script/phontsmanager"
 	"github.com/1Vewton/yukumo-script/utils"
@@ -14,6 +15,7 @@ import (
 
 // Initialize directories for storing data
 func init() {
+	// Initialize directories
 	utils.InitializeDirectory(utils.PhontsDir)
 	utils.InitializeDirectory(utils.ResultDir)
 	utils.InitializeDirectory(utils.WavsDir)
@@ -25,6 +27,7 @@ func init() {
 		panic(err)
 	}
 	ctx := context.Background()
+	// Generate examples
 	err = example.GenerateExampleWin(
 		ctx,
 		utils.ExampleDir,
@@ -34,9 +37,19 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+	// Initialize phont name 2 file name
 	err = phontsmanager.InitializePhontNameToFileName(
 		utils.PhontsDir,
 	)
+	if err != nil {
+		panic(err)
+	}
+	// Config the character list
+	characters.CharacterList.SetTargetFile(
+		utils.DatasDir,
+		utils.CharactersFile,
+	)
+	err = characters.CharacterList.ReadData()
 	if err != nil {
 		panic(err)
 	}
