@@ -34,6 +34,12 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
+	err = phontsmanager.InitializePhontNameToFileName(
+		utils.PhontsDir,
+	)
+	if err != nil {
+		panic(err)
+	}
 }
 
 // Main process

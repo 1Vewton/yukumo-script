@@ -7,5 +7,12 @@ import (
 // Characters stores the list of characters
 type Characters struct {
 	sync.RWMutex
-	data []Character
+	Data []Character `json:"data"`
+}
+
+// NewCharacters creates new Characters
+func NewCharacters() *Characters {
+	return &Characters{
+		Data: []Character{},
+	}
 }

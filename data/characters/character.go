@@ -7,3 +7,18 @@ type Character struct {
 	Description      string `json:"description"`
 	ProfileImagePath string `json:"profileImagePath"`
 }
+
+// NewCharacter creates new character
+func NewCharacter(
+	name string,
+	phontName string,
+	description string,
+	profileImagePath string,
+) *Character {
+	return &Character{
+		Name:             name,
+		PhontName:        phontName,
+		Description:      description,
+		ProfileImagePath: profileImagePath,
+	}
+}
