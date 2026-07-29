@@ -19,6 +19,7 @@ func init() {
 	utils.InitializeDirectory(utils.WavsDir)
 	utils.InitializeDirectory(utils.DatasDir)
 	utils.InitializeDirectory(utils.ExampleDir)
+	utils.InitializeDirectory(utils.ImagesDir)
 	dir, err := phontsmanager.GetAllPhonts(utils.PhontsDir)
 	if err != nil {
 		panic(err)

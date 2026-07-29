@@ -11,6 +11,8 @@ const (
 	WavsDir string = "wav"
 	// DatasDir defines the directory to store data such as characters
 	DatasDir string = "datas"
+	// ImagesDir define the directory to store images such as profiles
+	ImagesDir string = "datas/images"
 	// ConfDir defines the path of the conf file
 	ConfDir string = "conf.ini"
 )
