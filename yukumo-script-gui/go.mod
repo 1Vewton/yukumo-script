@@ -4,6 +4,7 @@ go 1.25.0
 
 require (
 	github.com/1Vewton/yukumo-script v0.0.0
+	github.com/magiconair/properties v1.18.11
 	github.com/wailsapp/wails/v2 v2.13.0
 )
 

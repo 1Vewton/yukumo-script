@@ -79,3 +79,32 @@ func (characters *Characters) ReadData() error {
 	}
 	return json.Unmarshal(data, characters)
 }
+
+// SaveData saves the data to the file
+func (characters *Characters) SaveData() error {
+	path := fmt.Sprintf(
+		"%s/%s",
+		characters.Folder,
+		characters.File,
+	)
+	_, errExist := os.Stat(path)
+	if errExist != nil {
+		if os.IsNotExist(errExist) {
+			file, errCreate := os.Create(path)
+			if errCreate != nil {
+				return errCreate
+			}
+			defer file.Close()
+			return characters.saveTo(path)
+		}
+		return errExist
+	}
+	return characters.saveTo(path)
+}
+
+// GetData gets the slice of characters
+func (characters *Characters) GetData() []Character {
+	characters.RLock()
+	defer characters.RUnlock()
+	return characters.Data
+}

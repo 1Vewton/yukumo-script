@@ -17,4 +17,6 @@ const (
 	ConfDir string = "conf.ini"
 	// CharactersFile defines the name of the file for storing characters
 	CharactersFile string = "characters.json"
+	// EnglishTexts defines the path of the english texts file
+	EnglishTexts string = "text_en.properties"
 )

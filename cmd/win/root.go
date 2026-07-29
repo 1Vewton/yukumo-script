@@ -21,8 +21,11 @@ Yukumo is a simple and flexible program that can generate yukumo audio without t
 }
 
 func init() {
-	rootCMD.AddCommand(showAvailablePhontsCMD)
-	rootCMD.AddCommand(playExampleCMD)
+	rootCMD.AddCommand(
+		showAvailablePhontsCMD,
+		playExampleCMD,
+		generateByFileCMD,
+	)
 }
 
 // Execute executes the command
