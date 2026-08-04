@@ -3,7 +3,30 @@
 
 package singlesentence
 
+import (
+	"fmt"
+
+	"github.com/1Vewton/yukumo-script/generator/generatorwin"
+)
+
 // GenerateWin generates the wav file in windows64 system
-func (task *Task) GenerateWin() error {
-	return nil
+func (task *Task) GenerateWin(
+	phontPath string,
+	targetDir string,
+) error {
+	fileName := fmt.Sprintf(
+		"%s/%s_%s_%d.json",
+		targetDir,
+		task.TaskName,
+		task.ID,
+		task.CreateTime.Unix(),
+	)
+	generator := generatorwin.NewGeneratorWin(
+		task.Speed,
+		phontPath,
+		fileName,
+		task.Text,
+	)
+	err := generator.GenerateWav()
+	return err
 }

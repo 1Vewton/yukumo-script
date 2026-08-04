@@ -16,6 +16,7 @@ type Task struct {
 	ID         string                `json:"id"`
 	TaskName   string                `json:"taskName"`
 	Text       string                `json:"text"`
+	Speed      int                   `json:"speed"`
 	CreateTime time.Time             `json:"createTime"`
 	EditTime   time.Time             `json:"editTime"`
 	Character  *characters.Character `json:"character"`
@@ -27,6 +28,7 @@ func NewSingleSentenceTask(
 	text string,
 	character *characters.Character,
 	phontName *string,
+	speed int,
 ) (*Task, error) {
 	if phontName == nil && character == nil {
 		return nil, errors.New(
@@ -41,6 +43,7 @@ func NewSingleSentenceTask(
 		EditTime:   time.Now(),
 		Character:  character,
 		PhontName:  phontName,
+		Speed:      speed,
 	}, nil
 }
 
