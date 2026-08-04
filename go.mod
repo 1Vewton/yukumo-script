@@ -6,6 +6,7 @@ require (
 	github.com/Luigi-Pizzolito/English2KanaTransliteration v1.0.4
 	github.com/faiface/beep v1.1.0
 	github.com/fatih/color v1.19.0
+	github.com/google/uuid v1.6.0
 	github.com/spf13/cobra v1.10.2
 	golang.org/x/sync v0.22.0
 	golang.org/x/text v0.40.0
