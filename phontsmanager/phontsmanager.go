@@ -1,6 +1,7 @@
 package phontsmanager
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -34,4 +35,29 @@ func InitializePhontNameToFileName(phontsDir string) error {
 		}
 	}
 	return nil
+}
+
+// GetPhontFile gets the phont file and check if the file exists
+func GetPhontFile(phontsDir string, phontName string) (string, error) {
+	// Check if it exists in the PhontNameToFileName
+	phontFile, exists := PhontNameToFileName.GetValue(
+		phontName,
+	)
+	if !exists {
+		return "", fmt.Errorf(
+			"No phont file correspond to %s",
+			phontName,
+		)
+	}
+	path := fmt.Sprintf(
+		"%s/%s",
+		phontsDir,
+		phontFile,
+	)
+	// Check if it exists
+	_, err := os.Stat(path)
+	if err != nil {
+		return "", err
+	}
+	return path, nil
 }

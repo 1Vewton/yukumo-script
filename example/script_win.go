@@ -1,3 +1,6 @@
+//go:build windows
+// +build windows
+
 package example
 
 import (
@@ -10,13 +13,8 @@ import (
 
 	"github.com/1Vewton/yukumo-script/generator/generatorwin"
 	"github.com/1Vewton/yukumo-script/language/all2jap"
-	"github.com/1Vewton/yukumo-script/utils/logger"
-	"github.com/1Vewton/yukumo-script/utils/syncutils"
 	"golang.org/x/sync/errgroup"
 )
-
-var scriptLogger = logger.NewLogger("Example", nil)
-var examplesMap = syncutils.NewMap()
 
 // GenerateExampleWin generates examples for phont file in win64
 func GenerateExampleWin(
