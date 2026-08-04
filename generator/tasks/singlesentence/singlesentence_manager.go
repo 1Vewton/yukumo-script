@@ -24,6 +24,7 @@ func NewTaskManager() *TaskManager {
 // Manager manages the tasks
 var Manager = NewTaskManager()
 
+// SetTargetFile sets the target file to save data
 func (manager *TaskManager) SetTargetFile(
 	folder string,
 	file string,
@@ -66,4 +67,21 @@ func (manager *TaskManager) ReadData() error {
 	}
 	errUnmarshal := json.Unmarshal(data, manager)
 	return errUnmarshal
+}
+
+// DeleteData deletes certain task
+func (manager *TaskManager) DeleteData(
+	taskName string,
+) error {
+	manager.Lock()
+	defer manager.Unlock()
+	_, exists := manager.Tasks[taskName]
+	if !exists {
+		return fmt.Errorf(
+			"Task with name %s does not exists",
+			taskName,
+		)
+	}
+	delete(manager.Tasks, taskName)
+	return manager.Save()
 }

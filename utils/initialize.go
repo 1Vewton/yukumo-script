@@ -18,7 +18,7 @@ func InitializeDirectory(directoryName string) {
 	if errStat == nil {
 		initializeLogger.Info(
 			fmt.Sprintf(
-				"%s directory alredy exists \n",
+				"%s directory already exists \n",
 				directoryName,
 			),
 		)
@@ -38,7 +38,7 @@ func InitializeFile(fileName string) {
 	if errStat == nil {
 		initializeLogger.Info(
 			fmt.Sprintf(
-				"%s file alredy exists \n",
+				"%s file already exists \n",
 				fileName,
 			),
 		)
