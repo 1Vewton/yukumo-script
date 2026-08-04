@@ -2,6 +2,7 @@ package characters
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"os"
 	"sync"
@@ -10,15 +11,15 @@ import (
 // Characters stores the list of characters
 type Characters struct {
 	sync.RWMutex
-	Data   []Character `json:"data"`
-	Folder string      `json:"folder"`
-	File   string      `json:"file"`
+	Data   map[string]*Character `json:"data"`
+	Folder string                `json:"folder"`
+	File   string                `json:"file"`
 }
 
 // NewCharacters creates new Characters
 func NewCharacters() *Characters {
 	return &Characters{
-		Data: []Character{},
+		Data: make(map[string]*Character),
 	}
 }
 
@@ -32,12 +33,26 @@ func (characters *Characters) SetTargetFile(
 }
 
 // AddCharacter adds new character to the slice
-func (characters *Characters) AddCharacter(character *Character) {
+func (characters *Characters) AddCharacter(
+	characterID string,
+	character *Character,
+) error {
 	if character != nil {
 		characters.Lock()
 		defer characters.Unlock()
-		characters.Data = append(characters.Data, *character)
+		_, exists := characters.Data[characterID]
+		if exists {
+			return fmt.Errorf(
+				"Character with Character ID %s already exists",
+				characterID,
+			)
+		}
+		characters.Data[characterID] = character
+		return nil
 	}
+	return errors.New(
+		"This characterID already exists",
+	)
 }
 
 // saveTo saves to the target file
@@ -103,7 +118,7 @@ func (characters *Characters) SaveData() error {
 }
 
 // GetData gets the slice of characters
-func (characters *Characters) GetData() []Character {
+func (characters *Characters) GetData() map[string]*Character {
 	characters.RLock()
 	defer characters.RUnlock()
 	return characters.Data

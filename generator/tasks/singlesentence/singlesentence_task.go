@@ -7,43 +7,42 @@ import (
 	"os"
 	"time"
 
-	"github.com/1Vewton/yukumo-script/data/characters"
 	"github.com/google/uuid"
 )
 
 // Task defines the task of generating a single sentence
 type Task struct {
-	ID         string                `json:"id"`
-	TaskName   string                `json:"taskName"`
-	Text       string                `json:"text"`
-	Speed      int                   `json:"speed"`
-	CreateTime time.Time             `json:"createTime"`
-	EditTime   time.Time             `json:"editTime"`
-	Character  *characters.Character `json:"character"`
-	PhontName  *string               `json:"phontName"`
+	ID          string    `json:"id"`
+	TaskName    string    `json:"taskName"`
+	Text        string    `json:"text"`
+	Speed       int       `json:"speed"`
+	CreateTime  time.Time `json:"createTime"`
+	EditTime    time.Time `json:"editTime"`
+	CharacterID *string   `json:"characterID"`
+	PhontName   *string   `json:"phontName"`
 }
 
 // NewSingleSentenceTask creates new single sentence task
 func NewSingleSentenceTask(
 	text string,
-	character *characters.Character,
+	characterID *string,
 	phontName *string,
 	speed int,
 ) (*Task, error) {
-	if phontName == nil && character == nil {
+	if phontName == nil && characterID == nil {
 		return nil, errors.New(
 			"You have to choose at least one of the way to generate the audio",
 		)
 	}
 	id := uuid.NewString()
 	return &Task{
-		ID:         id,
-		Text:       text,
-		CreateTime: time.Now(),
-		EditTime:   time.Now(),
-		Character:  character,
-		PhontName:  phontName,
-		Speed:      speed,
+		ID:          id,
+		Text:        text,
+		CreateTime:  time.Now(),
+		EditTime:    time.Now(),
+		CharacterID: characterID,
+		PhontName:   phontName,
+		Speed:       speed,
 	}, nil
 }
 

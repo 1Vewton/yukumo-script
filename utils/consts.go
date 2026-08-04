@@ -13,7 +13,7 @@ const (
 	DatasDir string = "datas"
 	// ImagesDir define the directory to store images such as profiles
 	ImagesDir string = "datas/images"
-	// TasksDir define the directory to store task datas
+	// TaskDir define the directory to store task datas
 	TaskDir string = "datas/tasks"
 	// SingleSentenceDir defines the directory to store tasks of single sentences
 	SingleSentenceDir string = "datas/tasks/single_setence"

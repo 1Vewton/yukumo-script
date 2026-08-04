@@ -8,4 +8,7 @@ import (
 var generateByFileCMD = &cobra.Command{
 	Use:   "generateByFile",
 	Short: "Generate yukumo audio through the file",
+	Long: `
+generateByFile allows you to generate yukumo audio through phont file directly
+	`,
 }

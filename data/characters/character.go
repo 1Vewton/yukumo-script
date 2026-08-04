@@ -30,3 +30,8 @@ func (character *Character) HasProfileImage() bool {
 	}
 	return true
 }
+
+// ShowInfo shows the info of the character
+func (character *Character) ShowInfo() {
+
+}
