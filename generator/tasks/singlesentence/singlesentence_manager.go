@@ -1,46 +1,69 @@
 package singlesentence
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
-
-	"github.com/1Vewton/yukumo-script/utils/logger"
+	"sync"
 )
 
-var singleSentenceManagerLogger = logger.NewLogger(
-	"SingleSentenceManager",
-	nil,
-)
+// TaskManager creates new task
+type TaskManager struct {
+	sync.RWMutex
+	Tasks    map[string]string `json:"tasks"`
+	fileName string
+}
 
-// GetAllTasks gets all the tasks
-func GetAllTasks(
-	targetDir string,
-) ([]*Task, error) {
-	result := []*Task{}
-	allFiles, errRead := os.ReadDir(targetDir)
+// NewTaskManager creates new task manager
+func NewTaskManager() *TaskManager {
+	return &TaskManager{
+		Tasks: make(map[string]string),
+	}
+}
+
+// Manager manages the tasks
+var Manager = NewTaskManager()
+
+func (manager *TaskManager) SetTargetFile(
+	folder string,
+	file string,
+) {
+	manager.Lock()
+	defer manager.Unlock()
+	manager.fileName = fmt.Sprintf(
+		"%s/%s",
+		folder,
+		file,
+	)
+}
+
+// Save saves the manager file
+func (manager *TaskManager) Save() error {
+	manager.RLock()
+	defer manager.RUnlock()
+	data, errMarshal := json.Marshal(manager)
+	if errMarshal != nil {
+		return errMarshal
+	}
+	errWrite := os.WriteFile(
+		manager.fileName,
+		data,
+		0644,
+	)
+	if errWrite != nil {
+		return errWrite
+	}
+	return nil
+}
+
+// ReadData reads the data in the file
+func (manager *TaskManager) ReadData() error {
+	manager.Lock()
+	defer manager.Unlock()
+	data, errRead := os.ReadFile(manager.fileName)
 	if errRead != nil {
-		return nil, errRead
+		return errRead
 	}
-	for _, file := range allFiles {
-		tmpFilePath := fmt.Sprintf(
-			"%s/%s",
-			targetDir,
-			file.Name(),
-		)
-		data, errGet := NewSingleSentenceTaskFromFile(
-			tmpFilePath,
-		)
-		if errGet != nil {
-			singleSentenceManagerLogger.Error(
-				fmt.Sprintf(
-					"Data in file %s cannot be read because of %s",
-					tmpFilePath,
-					errGet.Error(),
-				),
-			)
-		} else {
-			result = append(result, data)
-		}
-	}
-	return result, nil
+	errUnmarshal := json.Unmarshal(data, manager)
+	return errUnmarshal
 }

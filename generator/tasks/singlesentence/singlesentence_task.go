@@ -80,12 +80,13 @@ func (task *Task) SaveFileWin(
 	targetDir string,
 ) error {
 	// Marshal
-	marshalResult, errMarshal := json.Marshal(*task)
+	marshalResult, errMarshal := json.Marshal(task)
 	if errMarshal != nil {
 		return errMarshal
 	}
 	// Write file
 	fileName := task.GenerateFileName(targetDir)
+	task.EditTime = time.Now()
 	errWrite := os.WriteFile(
 		fileName,
 		marshalResult,

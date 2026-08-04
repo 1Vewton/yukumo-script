@@ -11,9 +11,8 @@ import (
 // Characters stores the list of characters
 type Characters struct {
 	sync.RWMutex
-	Data   map[string]*Character `json:"data"`
-	Folder string                `json:"folder"`
-	File   string                `json:"file"`
+	Data     map[string]*Character `json:"data"`
+	fileName string
 }
 
 // NewCharacters creates new Characters
@@ -28,8 +27,11 @@ func (characters *Characters) SetTargetFile(
 	folder string,
 	file string,
 ) {
-	characters.Folder = folder
-	characters.File = file
+	characters.fileName = fmt.Sprintf(
+		"%s/%s",
+		folder,
+		file,
+	)
 }
 
 // AddCharacter adds new character to the slice
@@ -64,31 +66,26 @@ func (characters *Characters) saveTo(target string) error {
 	errWrite := os.WriteFile(
 		target,
 		jsonData,
-		0666,
+		0644,
 	)
 	return errWrite
 }
 
 // ReadData reads the data inside the file stored
 func (characters *Characters) ReadData() error {
-	path := fmt.Sprintf(
-		"%s/%s",
-		characters.Folder,
-		characters.File,
-	)
-	_, errExist := os.Stat(path)
+	_, errExist := os.Stat(characters.fileName)
 	if errExist != nil {
 		if os.IsNotExist(errExist) {
-			file, errCreate := os.Create(path)
+			file, errCreate := os.Create(characters.fileName)
 			if errCreate != nil {
 				return errCreate
 			}
 			defer file.Close()
-			return characters.saveTo(path)
+			return characters.saveTo(characters.fileName)
 		}
 		return errExist
 	}
-	data, errRead := os.ReadFile(path)
+	data, errRead := os.ReadFile(characters.fileName)
 	if errRead != nil {
 		return errRead
 	}
@@ -97,24 +94,19 @@ func (characters *Characters) ReadData() error {
 
 // SaveData saves the data to the file
 func (characters *Characters) SaveData() error {
-	path := fmt.Sprintf(
-		"%s/%s",
-		characters.Folder,
-		characters.File,
-	)
-	_, errExist := os.Stat(path)
+	_, errExist := os.Stat(characters.fileName)
 	if errExist != nil {
 		if os.IsNotExist(errExist) {
-			file, errCreate := os.Create(path)
+			file, errCreate := os.Create(characters.fileName)
 			if errCreate != nil {
 				return errCreate
 			}
 			defer file.Close()
-			return characters.saveTo(path)
+			return characters.saveTo(characters.fileName)
 		}
 		return errExist
 	}
-	return characters.saveTo(path)
+	return characters.saveTo(characters.fileName)
 }
 
 // GetData gets the slice of characters

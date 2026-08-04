@@ -23,7 +23,7 @@ func InitializeDirectory(directoryName string) {
 			),
 		)
 	} else if os.IsNotExist(errStat) {
-		err := os.Mkdir(directoryName, 0666)
+		err := os.Mkdir(directoryName, 0644)
 		if err != nil {
 			panic(err.Error())
 		}

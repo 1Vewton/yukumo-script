@@ -16,7 +16,9 @@ const (
 	// TaskDir define the directory to store task datas
 	TaskDir string = "datas/tasks"
 	// SingleSentenceDir defines the directory to store tasks of single sentences
-	SingleSentenceDir string = "datas/tasks/single_setence"
+	SingleSentenceDir string = "datas/tasks/single_sentence"
+	// SingleSetenceTasksFile defines the file to store the info of tasks to make task management easier
+	SingleSetenceTasksFile string = "single_sentence_tasks.json"
 	// ConfDir defines the path of the conf file
 	ConfDir string = "conf.ini"
 	// CharactersFile defines the name of the file for storing characters

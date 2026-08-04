@@ -9,6 +9,7 @@ import (
 	"github.com/1Vewton/yukumo-script/cmd/win"
 	"github.com/1Vewton/yukumo-script/data/characters"
 	"github.com/1Vewton/yukumo-script/example"
+	"github.com/1Vewton/yukumo-script/generator/tasks/singlesentence"
 	"github.com/1Vewton/yukumo-script/phontsmanager"
 	"github.com/1Vewton/yukumo-script/utils"
 )
@@ -52,6 +53,15 @@ func init() {
 		utils.CharactersFile,
 	)
 	err = characters.CharacterList.ReadData()
+	if err != nil {
+		panic(err)
+	}
+	// Config the task list
+	singlesentence.Manager.SetTargetFile(
+		utils.TaskDir,
+		utils.SingleSetenceTasksFile,
+	)
+	err = singlesentence.Manager.Save()
 	if err != nil {
 		panic(err)
 	}
