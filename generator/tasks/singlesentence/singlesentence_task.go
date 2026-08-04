@@ -11,8 +11,8 @@ import (
 	"github.com/google/uuid"
 )
 
-// SingleSentenceTask defines the task of generating a single sentence
-type SingleSentenceTask struct {
+// Task defines the task of generating a single sentence
+type Task struct {
 	ID         string                `json:"id"`
 	TaskName   string                `json:"taskName"`
 	Text       string                `json:"text"`
@@ -27,14 +27,14 @@ func NewSingleSentenceTask(
 	text string,
 	character *characters.Character,
 	phontName *string,
-) (*SingleSentenceTask, error) {
+) (*Task, error) {
 	if phontName == nil && character == nil {
 		return nil, errors.New(
 			"You have to choose at least one of the way to generate the audio",
 		)
 	}
 	id := uuid.NewString()
-	return &SingleSentenceTask{
+	return &Task{
 		ID:         id,
 		Text:       text,
 		CreateTime: time.Now(),
@@ -47,8 +47,8 @@ func NewSingleSentenceTask(
 // NewSingleSentenceTaskFromFile gets single sentence task from file
 func NewSingleSentenceTaskFromFile(
 	fileName string,
-) (*SingleSentenceTask, error) {
-	var result SingleSentenceTask
+) (*Task, error) {
+	var result Task
 	data, errRead := os.ReadFile(fileName)
 	if errRead != nil {
 		return nil, errRead
@@ -61,7 +61,7 @@ func NewSingleSentenceTaskFromFile(
 }
 
 // GenerateFileName generates filename of metadata for this task
-func (task *SingleSentenceTask) GenerateFileName(
+func (task *Task) GenerateFileName(
 	targetDir string,
 ) string {
 	return fmt.Sprintf(
@@ -74,7 +74,7 @@ func (task *SingleSentenceTask) GenerateFileName(
 }
 
 // SaveFileWin saves the file in the target directory in windows
-func (task *SingleSentenceTask) SaveFileWin(
+func (task *Task) SaveFileWin(
 	targetDir string,
 ) error {
 	// Marshal

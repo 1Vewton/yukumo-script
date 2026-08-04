@@ -15,8 +15,8 @@ var singleSentenceManagerLogger = logger.NewLogger(
 // GetAllTasks gets all the tasks
 func GetAllTasks(
 	targetDir string,
-) ([]*SingleSentenceTask, error) {
-	result := []*SingleSentenceTask{}
+) ([]*Task, error) {
+	result := []*Task{}
 	allFiles, errRead := os.ReadDir(targetDir)
 	if errRead != nil {
 		return nil, errRead
