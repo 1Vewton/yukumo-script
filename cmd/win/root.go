@@ -21,15 +21,38 @@ Yukumo is a simple and flexible program that can generate yukumo audio without t
 }
 
 func init() {
-	// Add flags
+	// Add flags for generateByFile
 	generateByFileCMD.Flags().StringVarP(
 		&SingleSentenceTaskNameByFile,
 		"name",
 		"n",
 		"task",
-		"Sentence1",
+		"task name of the new generation task",
+	)
+	generateByFileCMD.Flags().StringVarP(
+		&SingleSentenceTaskTextByFile,
+		"text",
+		"t",
+		"",
+		"text to generate",
+	)
+	generateByFileCMD.Flags().IntVarP(
+		&SingleSentenceTaskLanguageByFile,
+		"language",
+		"l",
+		0,
+		"0: Japanese, 1: English, 2: Chinese",
+	)
+	generateByFileCMD.Flags().IntVarP(
+		&SingleSentenceTaskSpeedByFile,
+		"speed",
+		"s",
+		100,
+		"Speed of the audio(default: 100)",
 	)
 	generateByFileCMD.MarkFlagRequired("name")
+	generateByFileCMD.MarkFlagRequired("text")
+	generateByFileCMD.MarkFlagRequired("language")
 	// Add subcommands
 	rootCMD.AddCommand(
 		showAvailablePhontsCMD,

@@ -3,13 +3,25 @@ package win
 import (
 	"fmt"
 
+	"github.com/1Vewton/yukumo-script/generator/tasks/singlesentence"
+	"github.com/1Vewton/yukumo-script/language"
 	"github.com/1Vewton/yukumo-script/phontsmanager"
+	"github.com/1Vewton/yukumo-script/utils"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
 
 // SingleSentenceTaskNameByFile defines the name of the task
 var SingleSentenceTaskNameByFile string
+
+// SingleSentenceTaskTextByFile defines the text to generate for the task
+var SingleSentenceTaskTextByFile string
+
+// SingleSentenceTaskSpeedByFile defines the speed of the audio
+var SingleSentenceTaskSpeedByFile int
+
+// SingleSentenceTaskLanguageByFile defines the language of the audio
+var SingleSentenceTaskLanguageByFile int
 
 // generateByFile generates wav by file
 var generateByFileCMD = &cobra.Command{
@@ -38,10 +50,97 @@ generateByFile allows you to generate yukumo audio through phont file directly
 			phontName,
 		)
 		if !phontExists {
+			cmdLogger.Error(
+				fmt.Sprintf(
+					"No such phont %s",
+					phontName,
+				),
+			)
 			errMessage.Printf(
 				"No such phont %s",
 				phontName,
 			)
+			return
+		}
+		if singlesentence.Manager.HasTask(SingleSentenceTaskNameByFile) {
+			cmdLogger.Error(
+				fmt.Sprintf(
+					"task %s already exists",
+					SingleSentenceTaskNameByFile,
+				),
+			)
+			errMessage.Printf(
+				"task %s already exists",
+				SingleSentenceTaskNameByFile,
+			)
+			return
+		}
+		// Create New Task
+		processedText, errConvertLang := language.ConvertText(
+			SingleSentenceTaskTextByFile,
+			language.ToLanguage(SingleSentenceTaskLanguageByFile),
+		)
+		if errConvertLang != nil {
+			cmdLogger.Error(errConvertLang.Error())
+			errMessage.Println(errConvertLang.Error())
+		}
+		newTask, errCreateTask := singlesentence.NewSingleSentenceTask(
+			processedText,
+			nil,
+			&phontName,
+			SingleSentenceTaskSpeedByFile,
+			SingleSentenceTaskNameByFile,
+		)
+		if errCreateTask != nil {
+			cmdLogger.Error(errCreateTask.Error())
+			errMessage.Println(errCreateTask.Error())
+		}
+		// Generate
+		phontFileName, phontFileExists := phontsmanager.PhontNameToFileName.GetValue(
+			*newTask.PhontName,
+		)
+		if !phontFileExists {
+			cmdLogger.Error(
+				fmt.Sprintf(
+					"No such phont file %s",
+					phontName,
+				),
+			)
+			errMessage.Printf(
+				"No such phont file %s",
+				phontName,
+			)
+			return
+		}
+		phontPath := fmt.Sprintf(
+			"%s/%s",
+			utils.PhontsDir,
+			phontFileName,
+		)
+		errGenerate := newTask.GenerateWin(
+			phontPath,
+			utils.ResultDir,
+		)
+		if errGenerate != nil {
+			cmdLogger.Error(errGenerate.Error())
+			errMessage.Println(errGenerate.Error())
+			return
+		}
+		resultFile, errSaveFile := newTask.SaveFile(
+			utils.SingleSentenceDir,
+		)
+		if errSaveFile != nil {
+			cmdLogger.Error(errSaveFile.Error())
+			errMessage.Println(errSaveFile.Error())
+			return
+		}
+		errNewTask := singlesentence.Manager.NewTask(
+			newTask.TaskName,
+			resultFile,
+		)
+		if errNewTask != nil {
+			cmdLogger.Error(errNewTask.Error())
+			errMessage.Println(errNewTask.Error())
 			return
 		}
 	},

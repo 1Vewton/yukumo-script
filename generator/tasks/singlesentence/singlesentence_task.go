@@ -20,6 +20,7 @@ type Task struct {
 	EditTime    time.Time `json:"editTime"`
 	CharacterID *string   `json:"characterID"`
 	PhontName   *string   `json:"phontName"`
+	ResultFile  *string   `json:"resultFile"`
 }
 
 // NewSingleSentenceTask creates new single sentence task
@@ -28,6 +29,7 @@ func NewSingleSentenceTask(
 	characterID *string,
 	phontName *string,
 	speed int,
+	taskName string,
 ) (*Task, error) {
 	if phontName == nil && characterID == nil {
 		return nil, errors.New(
@@ -43,6 +45,8 @@ func NewSingleSentenceTask(
 		CharacterID: characterID,
 		PhontName:   phontName,
 		Speed:       speed,
+		ResultFile:  nil,
+		TaskName:    taskName,
 	}, nil
 }
 
@@ -76,13 +80,13 @@ func (task *Task) GenerateFileName(
 }
 
 // SaveFileWin saves the file in the target directory in windows
-func (task *Task) SaveFileWin(
+func (task *Task) SaveFile(
 	targetDir string,
-) error {
+) (string, error) {
 	// Marshal
 	marshalResult, errMarshal := json.Marshal(task)
 	if errMarshal != nil {
-		return errMarshal
+		return "", errMarshal
 	}
 	// Write file
 	fileName := task.GenerateFileName(targetDir)
@@ -92,5 +96,8 @@ func (task *Task) SaveFileWin(
 		marshalResult,
 		0644,
 	)
-	return errWrite
+	if errWrite != nil {
+		return "", errWrite
+	}
+	return fileName, nil
 }

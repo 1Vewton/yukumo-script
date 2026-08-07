@@ -59,9 +59,9 @@ func init() {
 	// Config the task list
 	singlesentence.Manager.SetTargetFile(
 		utils.TaskDir,
-		utils.SingleSetenceTasksFile,
+		utils.SingleSentenceTasksFile,
 	)
-	err = singlesentence.Manager.Save()
+	err = singlesentence.Manager.ReadData()
 	if err != nil {
 		panic(err)
 	}

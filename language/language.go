@@ -27,8 +27,8 @@ func (lang Language) ToInt() int {
 }
 
 // ToLanguage converts integer to Language
-func ToLanguage(langIfx int) Language {
-	switch langIfx {
+func ToLanguage(langIdx int) Language {
+	switch langIdx {
 	case 0:
 		return Japanese
 	case 1:

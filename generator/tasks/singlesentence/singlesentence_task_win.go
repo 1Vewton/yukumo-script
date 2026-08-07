@@ -13,7 +13,7 @@ import (
 func (task *Task) GenerateWin(
 	phontPath string,
 	targetDir string,
-) (string, error) {
+) error {
 	fileName := fmt.Sprintf(
 		"%s/%s_%s_%d.wav",
 		targetDir,
@@ -28,5 +28,6 @@ func (task *Task) GenerateWin(
 		task.Text,
 	)
 	err := generator.GenerateWav()
-	return fileName, err
+	task.ResultFile = &fileName
+	return err
 }

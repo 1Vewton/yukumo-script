@@ -75,7 +75,6 @@ func (manager *TaskManager) DeleteTask(
 	taskName string,
 ) error {
 	manager.Lock()
-	defer manager.Unlock()
 	_, exists := manager.Tasks[taskName]
 	if !exists {
 		return fmt.Errorf(
@@ -84,6 +83,7 @@ func (manager *TaskManager) DeleteTask(
 		)
 	}
 	delete(manager.Tasks, taskName)
+	manager.Unlock()
 	return manager.Save()
 }
 
@@ -93,15 +93,15 @@ func (manager *TaskManager) NewTask(
 	fileName string,
 ) error {
 	manager.Lock()
-	defer manager.Unlock()
 	_, exists := manager.Tasks[taskName]
-	if !exists {
+	if exists {
 		return fmt.Errorf(
 			"Task with name %s already exists",
 			taskName,
 		)
 	}
 	manager.Tasks[taskName] = fileName
+	manager.Unlock()
 	return manager.Save()
 }
 
@@ -110,4 +110,14 @@ func (manager *TaskManager) GetAllTasks() map[string]string {
 	manager.RLock()
 	defer manager.RUnlock()
 	return manager.Tasks
+}
+
+// HasTask checks if certain task with task name exists
+func (manager *TaskManager) HasTask(
+	taskName string,
+) bool {
+	manager.RLock()
+	defer manager.RUnlock()
+	_, exists := manager.Tasks[taskName]
+	return exists
 }
