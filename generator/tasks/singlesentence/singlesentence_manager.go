@@ -7,7 +7,8 @@ import (
 	"sync"
 )
 
-// TaskManager creates new task
+// TaskManager creates new task.
+// This links task metadata to the task name.
 type TaskManager struct {
 	sync.RWMutex
 	Tasks    map[string]string `json:"tasks"`
@@ -69,8 +70,8 @@ func (manager *TaskManager) ReadData() error {
 	return errUnmarshal
 }
 
-// DeleteData deletes certain task
-func (manager *TaskManager) DeleteData(
+// DeleteTask deletes certain task
+func (manager *TaskManager) DeleteTask(
 	taskName string,
 ) error {
 	manager.Lock()
@@ -84,4 +85,29 @@ func (manager *TaskManager) DeleteData(
 	}
 	delete(manager.Tasks, taskName)
 	return manager.Save()
+}
+
+// NewTask creates new task
+func (manager *TaskManager) NewTask(
+	taskName string,
+	fileName string,
+) error {
+	manager.Lock()
+	defer manager.Unlock()
+	_, exists := manager.Tasks[taskName]
+	if !exists {
+		return fmt.Errorf(
+			"Task with name %s already exists",
+			taskName,
+		)
+	}
+	manager.Tasks[taskName] = fileName
+	return manager.Save()
+}
+
+// GetAllTasks gets all the tasks
+func (manager *TaskManager) GetAllTasks() map[string]string {
+	manager.RLock()
+	defer manager.RUnlock()
+	return manager.Tasks
 }

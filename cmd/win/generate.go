@@ -22,6 +22,7 @@ generateByFile allows you to generate yukumo audio through phont file directly
 	Run: func(cmd *cobra.Command, args []string) {
 		// Define the format of the texts
 		title := color.New(color.FgGreen).Add(color.Bold)
+		errMessage := color.New(color.FgRed).Add(color.Bold)
 		text := color.New(color.Italic)
 		// Print info
 		title.Println("Here are the available phonts:")
@@ -32,5 +33,16 @@ generateByFile allows you to generate yukumo audio through phont file directly
 		// Input
 		var phontName string
 		fmt.Scan(&phontName)
+		// Get the phont
+		_, phontExists := phontsmanager.PhontNameToFileName.GetValue(
+			phontName,
+		)
+		if !phontExists {
+			errMessage.Printf(
+				"No such phont %s",
+				phontName,
+			)
+			return
+		}
 	},
 }
