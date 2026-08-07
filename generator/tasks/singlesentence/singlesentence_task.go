@@ -79,7 +79,7 @@ func (task *Task) GenerateFileName(
 	)
 }
 
-// SaveFileWin saves the file in the target directory in windows
+// SaveFile saves the file in the target directory in windows
 func (task *Task) SaveFile(
 	targetDir string,
 ) (string, error) {
