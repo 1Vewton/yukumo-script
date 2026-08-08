@@ -1,6 +1,3 @@
-// This file contains code from the shine-mp3 project (https://github.com/braheezy/shine-mp3)
-// Original copyright (c) 2023 braheezy, licensed under the GNU General Public License v2.
-// As a derivative work, this file is also licensed under the same license.
 package audio
 
 import (
@@ -12,6 +9,9 @@ import (
 )
 
 // WAV2MP3 converts .wav file to .mp3 file.
+// This function contains code from the shine-mp3 project (https://github.com/braheezy/shine-mp3)
+// Original copyright (c) 2023 braheezy, licensed under the GNU General Public License v2.
+// As a derivative work, this file is also licensed under the same license.
 func WAV2MP3(
 	wavFileName string,
 ) ([]byte, error) {
