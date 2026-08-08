@@ -12,6 +12,12 @@ import (
 	"github.com/1Vewton/yukumo-script/generator/tasks/singlesentence"
 	"github.com/1Vewton/yukumo-script/phontsmanager"
 	"github.com/1Vewton/yukumo-script/utils"
+	"github.com/1Vewton/yukumo-script/utils/logger"
+)
+
+var cliLogger = logger.NewLogger(
+	"CLI",
+	nil,
 )
 
 // Initialize directories for storing data
@@ -27,6 +33,7 @@ func init() {
 	utils.InitializeDirectory(utils.SingleSentenceDir)
 	dir, err := phontsmanager.GetAllPhonts(utils.PhontsDir)
 	if err != nil {
+		cliLogger.Error(err.Error())
 		panic(err)
 	}
 	ctx := context.Background()
@@ -38,6 +45,7 @@ func init() {
 		dir,
 	)
 	if err != nil {
+		cliLogger.Error(err.Error())
 		panic(err)
 	}
 	// Initialize phont name 2 file name
@@ -45,6 +53,7 @@ func init() {
 		utils.PhontsDir,
 	)
 	if err != nil {
+		cliLogger.Error(err.Error())
 		panic(err)
 	}
 	// Config the character list
@@ -54,6 +63,7 @@ func init() {
 	)
 	err = characters.CharacterList.ReadData()
 	if err != nil {
+		cliLogger.Error(err.Error())
 		panic(err)
 	}
 	// Config the task list
@@ -63,6 +73,7 @@ func init() {
 	)
 	err = singlesentence.Manager.ReadData()
 	if err != nil {
+		cliLogger.Error(err.Error())
 		panic(err)
 	}
 }

@@ -3,6 +3,7 @@ package win
 import (
 	"fmt"
 
+	"github.com/1Vewton/yukumo-script/cmd/cmdinterface"
 	"github.com/1Vewton/yukumo-script/generator/tasks/singlesentence"
 	"github.com/1Vewton/yukumo-script/language"
 	"github.com/1Vewton/yukumo-script/phontsmanager"
@@ -153,5 +154,25 @@ generateByFile allows you to generate yukumo audio through phont file directly
 			"Generated File Path: %s\n",
 			*newTask.ResultFile,
 		)
+		// Export file
+		doExport, errAskExport := cmdinterface.YesOrNoWithColor(
+			title,
+			"Do you want to export the file generated? (Warning: This will overwrite the file if the path of the exported file already exists)",
+			false,
+		)
+		if errAskExport != nil {
+			cmdLogger.Error(errAskExport.Error())
+			errMessage.Println(errAskExport.Error())
+			return
+		}
+		if !doExport {
+			return
+		}
+		title.Println("Input the directory of the exported file to store")
+		var exportDirectory string
+		fmt.Scan(&exportDirectory)
+		title.Println("Input the name of the file to store (no suffix needed)")
+		var exportFileNamne string
+		fmt.Scan(&exportFileNamne)
 	},
 }
