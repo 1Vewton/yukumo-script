@@ -8,6 +8,7 @@ import (
 	"github.com/1Vewton/yukumo-script/language"
 	"github.com/1Vewton/yukumo-script/phontsmanager"
 	"github.com/1Vewton/yukumo-script/utils"
+	"github.com/1Vewton/yukumo-script/utils/audio"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
@@ -174,5 +175,22 @@ generateByFile allows you to generate yukumo audio through phont file directly
 		title.Println("Input the name of the file to store (no suffix needed)")
 		var exportFileNamne string
 		fmt.Scan(&exportFileNamne)
+		doChangeFormat, errAskChangeFormat := cmdinterface.YesOrNoWithColor(
+			title,
+			"Do you want to change the format of the exported file to formats other than wav file?",
+			false,
+		)
+		if errAskChangeFormat != nil {
+			return
+		}
+		if doChangeFormat {
+			title.Println("Select the format of the exported file")
+			formats := audio.GetAllFormats()
+			for _, format := range formats {
+				text.Println(format.ToString())
+			}
+			var selectedFormat string
+			fmt.Scan(selectedFormat)
+		}
 	},
 }
