@@ -4,8 +4,10 @@ go 1.25.0
 
 require (
 	github.com/Luigi-Pizzolito/English2KanaTransliteration v1.0.4
+	github.com/braheezy/shine-mp3 v0.1.0
 	github.com/faiface/beep v1.1.0
 	github.com/fatih/color v1.19.0
+	github.com/go-audio/wav v1.1.0
 	github.com/google/uuid v1.6.0
 	github.com/spf13/cobra v1.10.2
 	golang.org/x/sync v0.22.0
@@ -13,6 +15,8 @@ require (
 )
 
 require (
+	github.com/go-audio/audio v1.0.0 // indirect
+	github.com/go-audio/riff v1.0.0 // indirect
 	github.com/gojp/kana v0.1.0 // indirect
 	github.com/hajimehoshi/oto v0.7.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
