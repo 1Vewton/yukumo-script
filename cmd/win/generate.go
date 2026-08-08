@@ -44,7 +44,12 @@ generateByFile allows you to generate yukumo audio through phont file directly
 		title.Println("Input the name of the phont you want to use to generate audio:")
 		// Input
 		var phontName string
-		fmt.Scan(&phontName)
+		_, errInput := fmt.Scan(&phontName)
+		if errInput != nil {
+			cmdLogger.Error(errInput.Error())
+			errMessage.Println(errInput.Error())
+			return
+		}
 		// Get the phont
 		_, phontExists := phontsmanager.PhontNameToFileName.GetValue(
 			phontName,
@@ -143,5 +148,10 @@ generateByFile allows you to generate yukumo audio through phont file directly
 			errMessage.Println(errNewTask.Error())
 			return
 		}
+		// Show file info
+		title.Printf(
+			"Generated File Path: %s\n",
+			*newTask.ResultFile,
+		)
 	},
 }

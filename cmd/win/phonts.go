@@ -43,7 +43,12 @@ var playExampleCMD = &cobra.Command{
 		title.Println("Input the name of the phont you want to play:")
 		// Input
 		var phontName string
-		fmt.Scan(&phontName)
+		_, errInput := fmt.Scan(&phontName)
+		if errInput != nil {
+			cmdLogger.Error(errInput.Error())
+			errMessage.Println(errInput.Error())
+			return
+		}
 		// Play
 		file, err := example.PlayExample(phontName)
 		if err != nil {
