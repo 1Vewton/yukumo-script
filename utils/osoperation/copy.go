@@ -19,9 +19,8 @@ func CopyFile(
 				"%s file does not exists, you cannot copy file that does not exists",
 				originalFilePath,
 			)
-		} else {
-			return errOriginalFileExists
 		}
+		return errOriginalFileExists
 	}
 	targetFilePath := fmt.Sprintf(
 		"%s/%s.%s",
