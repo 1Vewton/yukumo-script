@@ -6,7 +6,7 @@ import (
 	"github.com/fatih/color"
 )
 
-// YesOrNoColor shows y/N or Y/n question with color
+// YesOrNoWithColor shows y/N or Y/n question with color
 func YesOrNoWithColor(
 	mainColor *color.Color,
 	question string,
