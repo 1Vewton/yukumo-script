@@ -1,22 +1,22 @@
 package audio
 
-// AudioFormat defines the type of the audio
-type AudioFormat string
+// Format defines the type of the audio
+type Format string
 
 const (
 	// WAV : .wav
-	WAV AudioFormat = "wav"
+	WAV Format = "wav"
 	// MP3 : mp3
-	MP3 AudioFormat = "mp3"
+	MP3 Format = "mp3"
 	// AAC : m4a
-	AAC AudioFormat = "m4a"
+	AAC Format = "m4a"
 	// FLAC : flac
-	FLAC AudioFormat = "flac"
+	FLAC Format = "flac"
 )
 
-// GetAllFormats gets all the types of audios to transform
-func GetAllFormats() []AudioFormat {
-	return []AudioFormat{
+// GetAllFormats gets all the formats of audios to transform
+func GetAllFormats() []Format {
+	return []Format{
 		WAV,
 		MP3,
 		AAC,
@@ -24,8 +24,8 @@ func GetAllFormats() []AudioFormat {
 	}
 }
 
-// ToString converts AudioFormat to string
-func (audioType AudioFormat) ToString() string {
+// ToString converts Format to string
+func (audioType Format) ToString() string {
 	switch audioType {
 	case WAV:
 		return "wav"
@@ -40,10 +40,10 @@ func (audioType AudioFormat) ToString() string {
 	}
 }
 
-// ToAudioType converts string to AudioFormat
-func ToAudioType(
+// ToFormat converts string to AudioFormat
+func ToFormat(
 	audioType string,
-) AudioFormat {
+) Format {
 	switch audioType {
 	case "wav":
 		return WAV
